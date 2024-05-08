@@ -1,0 +1,449 @@
+openapi: 3.0.0
+info:
+  title: TellUrStori REST API
+  description: API to manage and test functionalities related to users, threads, and AI-generated content such as texts, images, and audios.
+  version: 0.1.1
+servers:
+  - url: https://example.com
+    description: TellUrStori REST API server
+
+paths:
+  # User endpoints
+  /users:
+    get:
+      summary: List all users
+      operationId: listUsers
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      summary: Create a new user
+      operationId: createUser
+      requestBody:
+        description: User data to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User created
+  /users/{username}:
+    parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Get a specific user
+      operationId: getUser
+      responses:
+        '200':
+          description: Detailed information about a user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    put:
+      summary: Update a user
+      operationId: updateUser
+      requestBody:
+        description: Data to update a user
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User updated
+    delete:
+      summary: Delete a user
+      operationId: deleteUser
+      responses:
+        '204':
+          description: User deleted
+
+  # Thread endpoints
+  /users/{username}/threads:
+    parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Get all threads for a user
+      operationId: getThreads
+      responses:
+        '200':
+          description: List of threads
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Thread'
+    post:
+      summary: Create a new thread
+      operationId: createThread
+      requestBody:
+        description: Thread data to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thread'
+      responses:
+        '201':
+          description: Thread created
+  /users/{username}/threads/{id}:
+    parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Get a specific thread
+      operationId: getThread
+      responses:
+        '200':
+          description: Detailed information about a thread
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thread'
+    put:
+      summary: Update a thread
+      operationId: updateThread
+      requestBody:
+        description: Data to update a thread
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thread'
+      responses:
+        '200':
+          description: Thread updated
+    delete:
+      summary: Delete a thread
+      operationId: deleteThread
+      responses:
+        '204':
+          description: Thread deleted
+
+  # Generated audio endpoints
+  /users/{username}/generated_audios:
+    parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Get all generated audios for a user
+      operationId: getGeneratedAudios
+      responses:
+        '200':
+          description: List of generated audios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GeneratedAudio'
+    post:
+      summary: Create a new generated audio
+      operationId: createGeneratedAudio
+      requestBody:
+        description: Audio data to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeneratedAudio'
+      responses:
+        '201':
+          description: Generated audio created
+
+  /users/{username}/generated_audios/{id}:
+     parameters:
+       - name: username
+         in: path
+         required: true
+         schema:
+           type: string
+       - name: id
+         in: path
+         required: true
+         schema:
+           type: string
+     get:
+       summary: Get a specific generated audio
+       operationId: getGeneratedAudio
+       responses:
+         '200':
+           description: Detailed information about a generated audio
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/GeneratedAudio'
+     put:
+       summary: Update a generated audio
+       operationId: updateGeneratedAudio
+       requestBody:
+         description: Data to update a generated audio
+         required: true
+         content:
+           application/json:
+             schema:
+               $ref: '#/components/schemas/GeneratedAudio'
+       responses:
+         '200':
+           description: Generated audio updated
+     delete:
+       summary: Delete a generated audio
+       operationId: deleteGeneratedAudio
+       responses:
+         '204':
+           description: Generated audio deleted
+
+  # Generated image endpoints
+  /users/{username}/generated_images:
+    parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Get all generated images for a user
+      operationId: getGeneratedImages
+      responses:
+        '200':
+          description: List of generated images
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GeneratedImage'
+    post:
+      summary: Create a new generated image
+      operationId: createGeneratedImage
+      requestBody:
+        description: Image data to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeneratedImage'
+      responses:
+        '201':
+          description: Generated image created
+  /users/{username}/generated_images/{id}:
+    parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Get a specific generated image
+      operationId: getGeneratedImage
+      responses:
+        '200':
+          description: Detailed information about a generated image
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneratedImage'
+    put:
+      summary: Update a generated image
+      operationId: updateGeneratedImage
+      requestBody:
+        description: Data to update a generated image
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeneratedImage'
+      responses:
+        '200':
+          description: Generated image updated
+    delete:
+      summary: Delete a generated image
+      operationId: deleteGeneratedImage
+      responses:
+        '204':
+          description: Generated image deleted
+
+  # Generated text endpoints
+  /users/{username}/threads/{threadId}/generated_texts:
+    parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: threadId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Get all generated texts for a thread
+      operationId: getGeneratedTexts
+      responses:
+        '200':
+          description: List of generated texts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GeneratedText'
+    post:
+      summary: Create a new generated text
+      operationId: createGeneratedText
+      requestBody:
+        description: Text data to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeneratedText'
+      responses:
+        '201':
+          description: Generated text created
+  /users/{username}/threads/{threadId}/generated_texts/{textId}:
+    parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: threadId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: textId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Get a specific generated text
+      operationId: getGeneratedText
+      responses:
+        '200':
+          description: Detailed information about a generated text
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneratedText'
+    put:
+      summary: Update a generated text
+      operationId: updateGeneratedText
+      requestBody:
+        description: Data to update a generated text
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeneratedText'
+      responses:
+        '200':
+          description: Generated text updated
+    delete:
+      summary: Delete a generated text
+      operationId: deleteGeneratedText
+      responses:
+        '204':
+          description: Generated text deleted
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        profilePictureUrl:
+          type: string
+        accountCreated:
+          type: string
+          format: date-time
+    Thread:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    GeneratedAudio:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        audioType:
+          type: string
+        duration:
+          type: integer
+        url:
+          type: string
+    GeneratedImage:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        imageUrl:
+          type: string
+        width:
+          type: integer
+        height:
+          type: integer
+    GeneratedText:
+      type: object
+      properties:
+        id:
+          type: string
+        content:
+          type: string
+        prompt:
+          type: string
