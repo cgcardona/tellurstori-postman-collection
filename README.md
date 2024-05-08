@@ -15,11 +15,9 @@ Before you begin, ensure you have the following installed:
 To get started, clone the repository that contains the Postman collection:
 
 ```bash
-git clone https://github.com/your-repository/tellurstori.git
-cd tellurstori
+git clone https://github.com/cgcardona/tellurstori-postman-collection.git
+cd tellurstori-postman-collection
 ```
-
-Replace `https://github.com/your-repository/tellurstori.git` with the actual URL of your repository.
 
 ### Installing the Postman Collection
 
@@ -64,7 +62,3 @@ Replace `https://github.com/your-repository/tellurstori.git` with the actual URL
 ## Conclusion
 
 This README provides a basic guide to importing and using the TellUrStori POSTMAN collection. For more detailed information, refer to Postman's official documentation or the specific documentation for the TellUrStori API.
-
----
-
-This Markdown file can be created by simply copying the text into a new file named `README.md` in your project's root directory. This will serve as a comprehensive guide for anyone needing to work with the TellUrStori Postman collection. If there are more specific features or configurations unique to TellUrStori that should be included, feel free to adjust the instructions accordingly!
