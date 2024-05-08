@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a0035249-52d8-4627-ab2c-c4a2fb0a2023",
+		"_postman_id": "7e801ccc-6f91-4233-8cd8-452a204b8342",
 		"name": "TellUrStori",
 		"description": "The collection includes a set of predefined requests for interacting with the TellUrStori API, allowing you to manage and test functionalities related to users, threads, and AI-generated content such as texts, images, and audios.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -19,9 +19,27 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});"
+									"});",
+									"",
+									"pm.test(\"Response must be an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an('array');",
+									"});",
+									"",
+									"pm.test(\"Each audio should have required properties\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.forEach(function (item) {",
+									"        pm.expect(item).to.have.property('id');",
+									"        pm.expect(item).to.have.property('title');",
+									"        pm.expect(item).to.have.property('audioType');",
+									"        pm.expect(item).to.have.property('duration');",
+									"        pm.expect(item).to.have.property('url');",
+									"    });",
+									"});",
+									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -53,9 +71,21 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});"
+									"});",
+									"",
+									"pm.test(\"Response contains audio details\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"    pm.expect(jsonData).to.have.property('title');",
+									"    pm.expect(jsonData).to.have.property('audioType');",
+									"    pm.expect(jsonData).to.have.property('duration');",
+									"    pm.expect(jsonData).to.have.property('url');",
+									"    pm.expect(jsonData.id).to.eql(pm.variables.get(\"audioId\")); // Assuming 'audioId' is set in the environment or global variables",
+									"});",
+									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -75,7 +105,7 @@
 								"{{id}}"
 							]
 						},
-						"description": "Fetches a specific generated audio file using its unique identifier. This request is intended for when users or applications need to access or review the details of a particular audio asset. The response provides comprehensive information about the audio, including its URL, duration, and other attributes." 
+						"description": "Fetches a specific generated audio file using its unique identifier. This request is intended for when users or applications need to access or review the details of a particular audio asset. The response provides comprehensive information about the audio, including its URL, duration, and other attributes."
 					},
 					"response": []
 				},
@@ -86,12 +116,23 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Successful PUT request\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response contains audio details\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"    pm.expect(jsonData).to.have.property('title');",
+									"    pm.expect(jsonData).to.have.property('audioType');",
+									"    pm.expect(jsonData).to.have.property('duration');",
+									"    pm.expect(jsonData).to.have.property('url');",
+									"    pm.expect(jsonData.title).to.eql(pm.request.body.json().title);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -131,12 +172,19 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Successful POST request\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response confirms update\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"    pm.expect(jsonData.message).to.eql(\"Generated audio updated successfully.\");",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -175,12 +223,17 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Successful DELETE request\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									"",
+									"pm.test(\"Body is empty on deletion\", function () {",
+									"    pm.expect(pm.response.text()).to.be.empty;",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -228,9 +281,27 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});"
+									"});",
+									"",
+									"pm.test(\"Response must be an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an('array');",
+									"});",
+									"",
+									"pm.test(\"Each image should have required properties\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.forEach(function (item) {",
+									"        pm.expect(item).to.have.property('id');",
+									"        pm.expect(item).to.have.property('title');",
+									"        pm.expect(item).to.have.property('imageUrl');",
+									"        pm.expect(item).to.have.property('width');",
+									"        pm.expect(item).to.have.property('height');",
+									"    });",
+									"});",
+									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -262,9 +333,21 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});"
+									"});",
+									"",
+									"pm.test(\"Response contains image details\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"    pm.expect(jsonData).to.have.property('title');",
+									"    pm.expect(jsonData).to.have.property('imageUrl');",
+									"    pm.expect(jsonData).to.have.property('width');",
+									"    pm.expect(jsonData).to.have.property('height');",
+									"    pm.expect(jsonData.id).to.eql(pm.variables.get(\"imageId\")); // Assuming 'imageId' is set in the environment or global variables",
+									"});",
+									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -295,12 +378,18 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Successful PUT request\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
 									"});",
-									""
+									"",
+									"pm.test(\"Response confirms update\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"    pm.expect(jsonData.message).to.eql(\"Generated image updated successfully.\");",
+									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -340,12 +429,23 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Successful POST request\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response contains image details\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"    pm.expect(jsonData).to.have.property('title');",
+									"    pm.expect(jsonData).to.have.property('imageUrl');",
+									"    pm.expect(jsonData).to.have.property('width');",
+									"    pm.expect(jsonData).to.have.property('height');",
+									"    pm.expect(jsonData.title).to.eql(pm.request.body.json().title);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -384,12 +484,17 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Successful DELETE request\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									"",
+									"pm.test(\"Body is empty on deletion\", function () {",
+									"    pm.expect(pm.response.text()).to.be.empty;",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -422,7 +527,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "This folder manages image assets created through TellUrStori, guided by positive and negative prompts. APIs allow for the retrieval of all images or specific ones, updating image attributes, creating new images tailored to user inputs, and deleting images. It is designed for users to explore and manipulate visual content, promoting innovative art or design projects."
 		},
 		{
 			"name": "generated texts",
@@ -436,9 +542,25 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});"
+									"});",
+									"",
+									"pm.test(\"Response must be an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an('array');",
+									"});",
+									"",
+									"pm.test(\"Each text should have required properties\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.forEach(function (item) {",
+									"        pm.expect(item).to.have.property('id');",
+									"        pm.expect(item).to.have.property('content');",
+									"        pm.expect(item).to.have.property('prompt');",
+									"    });",
+									"});",
+									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -472,9 +594,19 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});"
+									"});",
+									"",
+									"pm.test(\"Response contains text details\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"    pm.expect(jsonData).to.have.property('content');",
+									"    pm.expect(jsonData).to.have.property('prompt');",
+									"    pm.expect(jsonData.id).to.eql(pm.variables.get(\"textId\")); // Assuming 'textId' is set in the environment or global variables",
+									"});",
+									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -507,12 +639,19 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Successful PUT request\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response confirms update\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"    pm.expect(jsonData.message).to.eql(\"Generated text updated successfully.\");",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -554,12 +693,21 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Successful POST request\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response contains text details\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"    pm.expect(jsonData).to.have.property('content');",
+									"    pm.expect(jsonData).to.have.property('prompt');",
+									"    pm.expect(jsonData.prompt).to.eql(pm.request.body.json().prompt);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -600,12 +748,17 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Successful DELETE request\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									"",
+									"pm.test(\"Body is empty on deletion\", function () {",
+									"    pm.expect(pm.response.text()).to.be.empty;",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -655,9 +808,26 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});"
+									"});",
+									"",
+									"pm.test(\"Response must be an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an('array');",
+									"});",
+									"",
+									"pm.test(\"Each thread should have required properties\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.forEach(function (item) {",
+									"        pm.expect(item).to.have.property('id');",
+									"        pm.expect(item).to.have.property('title');",
+									"        pm.expect(item).to.have.property('createdAt');",
+									"        pm.expect(item).to.have.property('updatedAt');",
+									"    });",
+									"});",
+									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -849,7 +1019,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "This folder provides API endpoints for managing threads, which are collections of generated texts. Users can retrieve all threads or a specific one, create new threads, update thread details, and delete them. Threads organize multiple TellUrStori-generated texts, facilitating structured storytelling or content creation."
 		},
 		{
 			"name": "users",
@@ -863,9 +1034,24 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response must be an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an('array');",
+									"});",
+									"",
+									"pm.test(\"Each user should have required properties\", function() {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.forEach(function (item) {",
+									"        pm.expect(item).to.have.property('username');",
+									"        pm.expect(item).to.have.property('email');",
+									"        pm.expect(item).to.have.property('name');",
+									"    });",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -895,9 +1081,19 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});"
+									"});",
+									"",
+									"pm.test(\"Response contains user details\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('username');",
+									"    pm.expect(jsonData).to.have.property('email');",
+									"    pm.expect(jsonData).to.have.property('name');",
+									"    pm.expect(jsonData.username).to.eql(pm.variables.get(\"username\")); // Assuming 'username' is set in the environment or global variables",
+									"});",
+									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -926,12 +1122,19 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Successful PUT request\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response confirms update\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"    pm.expect(jsonData.message).to.eql(\"User updated successfully.\");",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -969,12 +1172,21 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Successful POST request\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response contains user details\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('username');",
+									"    pm.expect(jsonData).to.have.property('email');",
+									"    pm.expect(jsonData).to.have.property('name');",
+									"    pm.expect(jsonData.username).to.eql(pm.request.body.json().username);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -1011,12 +1223,17 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Successful DELETE request\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									"",
+									"pm.test(\"Body is empty on deletion\", function () {",
+									"    pm.expect(pm.response.text()).to.be.empty;",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -1046,6 +1263,650 @@
 						"description": "Provides the functionality to delete a specific user's account. This is important for managing the lifecycle of user data, allowing for the removal of accounts that are no longer active or required. It helps maintain the integrity and relevance of the user base."
 					},
 					"response": []
+				}
+			],
+			"description": "APIs in this folder handle user data. It includes functionalities to retrieve all users or a specific user by username, update user profiles, create new user accounts, and delete users. This section supports user management functionalities essential for personalized user experiences within the app."
+		},
+		{
+			"name": "negative tests",
+			"item": [
+				{
+					"name": "generated audios",
+					"item": [
+						{
+							"name": "/users/{{username}}/generated_audios",
+							"item": [
+								{
+									"name": "PUT generated_audios",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 405\", function () {",
+													"    pm.response.to.have.status(405);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users/{{username}}/generated_audios",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users",
+												"{{username}}",
+												"generated_audios"
+											]
+										},
+										"description": "This request retrieves a list of all users registered in the application. It's useful for administrative purposes, allowing for an overview of user engagement and account details. This endpoint supports management tasks and provides insights into the user base of the application."
+									},
+									"response": []
+								},
+								{
+									"name": "PATCH generated_audios",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 405\", function () {",
+													"    pm.response.to.have.status(405);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users/{{username}}/generated_audios",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users",
+												"{{username}}",
+												"generated_audios"
+											]
+										},
+										"description": "This request retrieves a list of all users registered in the application. It's useful for administrative purposes, allowing for an overview of user engagement and account details. This endpoint supports management tasks and provides insights into the user base of the application."
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE generated_audios",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 405\", function () {",
+													"    pm.response.to.have.status(405);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users/{{username}}/generated_audios",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users",
+												"{{username}}",
+												"generated_audios"
+											]
+										},
+										"description": "This request retrieves a list of all users registered in the application. It's useful for administrative purposes, allowing for an overview of user engagement and account details. This endpoint supports management tasks and provides insights into the user base of the application."
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "/users/{{username}}/generated_audios/{{id}}",
+							"item": [
+								{
+									"name": "GET undefined username",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users/{{username}}/generated_audios/{{id}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users",
+												"{{username}}",
+												"generated_audios",
+												"{{id}}"
+											]
+										},
+										"description": "Fetches detailed information about a specific user using their unique username. This endpoint is essential for accessing comprehensive details such as the user's name, email, and profile picture URL. It enables focused user management and support activities, including profile reviews and updates."
+									},
+									"response": []
+								},
+								{
+									"name": "POST user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 405\", function () {",
+													"    pm.response.to.have.status(405);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users/{{username}}/generated_audios/{{id}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users",
+												"{{username}}",
+												"generated_audios",
+												"{{id}}"
+											]
+										},
+										"description": "This request retrieves a list of all users registered in the application. It's useful for administrative purposes, allowing for an overview of user engagement and account details. This endpoint supports management tasks and provides insights into the user base of the application."
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "generated images",
+					"item": [
+						{
+							"name": "/users/{{username}}/generated_images",
+							"item": [
+								{
+									"name": "PUT generated_images",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 405\", function () {",
+													"    pm.response.to.have.status(405);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users/{{username}}/generated_images",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users",
+												"{{username}}",
+												"generated_images"
+											]
+										},
+										"description": "This request retrieves a list of all users registered in the application. It's useful for administrative purposes, allowing for an overview of user engagement and account details. This endpoint supports management tasks and provides insights into the user base of the application."
+									},
+									"response": []
+								},
+								{
+									"name": "PATCH generated_images",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 405\", function () {",
+													"    pm.response.to.have.status(405);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users/{{username}}/generated_images",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users",
+												"{{username}}",
+												"generated_images"
+											]
+										},
+										"description": "This request retrieves a list of all users registered in the application. It's useful for administrative purposes, allowing for an overview of user engagement and account details. This endpoint supports management tasks and provides insights into the user base of the application."
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE generated_images",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 405\", function () {",
+													"    pm.response.to.have.status(405);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users/{{username}}/generated_images",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users",
+												"{{username}}",
+												"generated_images"
+											]
+										},
+										"description": "This request retrieves a list of all users registered in the application. It's useful for administrative purposes, allowing for an overview of user engagement and account details. This endpoint supports management tasks and provides insights into the user base of the application."
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "/users/{{username}}/generated_images/{{id}}",
+							"item": [
+								{
+									"name": "GET undefined generated image",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users/{{username}}/generated_images/10",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users",
+												"{{username}}",
+												"generated_images",
+												"10"
+											]
+										},
+										"description": "Fetches detailed information about a specific user using their unique username. This endpoint is essential for accessing comprehensive details such as the user's name, email, and profile picture URL. It enables focused user management and support activities, including profile reviews and updates."
+									},
+									"response": []
+								},
+								{
+									"name": "POST user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 405\", function () {",
+													"    pm.response.to.have.status(405);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users/{{username}}/generated_images/{{id}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users",
+												"{{username}}",
+												"generated_images",
+												"{{id}}"
+											]
+										},
+										"description": "This request retrieves a list of all users registered in the application. It's useful for administrative purposes, allowing for an overview of user engagement and account details. This endpoint supports management tasks and provides insights into the user base of the application."
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "/users",
+							"item": [
+								{
+									"name": "PUT users",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 405\", function () {",
+													"    pm.response.to.have.status(405);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users"
+											]
+										},
+										"description": "This request retrieves a list of all users registered in the application. It's useful for administrative purposes, allowing for an overview of user engagement and account details. This endpoint supports management tasks and provides insights into the user base of the application."
+									},
+									"response": []
+								},
+								{
+									"name": "PATCH users",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 405\", function () {",
+													"    pm.response.to.have.status(405);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users"
+											]
+										},
+										"description": "This request retrieves a list of all users registered in the application. It's useful for administrative purposes, allowing for an overview of user engagement and account details. This endpoint supports management tasks and provides insights into the user base of the application."
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE users",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 405\", function () {",
+													"    pm.response.to.have.status(405);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users"
+											]
+										},
+										"description": "This request retrieves a list of all users registered in the application. It's useful for administrative purposes, allowing for an overview of user engagement and account details. This endpoint supports management tasks and provides insights into the user base of the application."
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "/users/{username}",
+							"item": [
+								{
+									"name": "GET undefined username",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users/undefinedusername",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users",
+												"undefinedusername"
+											]
+										},
+										"description": "Fetches detailed information about a specific user using their unique username. This endpoint is essential for accessing comprehensive details such as the user's name, email, and profile picture URL. It enables focused user management and support activities, including profile reviews and updates."
+									},
+									"response": []
+								},
+								{
+									"name": "POST user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 405\", function () {",
+													"    pm.response.to.have.status(405);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users/{{username}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users",
+												"{{username}}"
+											]
+										},
+										"description": "This request retrieves a list of all users registered in the application. It's useful for administrative purposes, allowing for an overview of user engagement and account details. This endpoint supports management tasks and provides insights into the user base of the application."
+									},
+									"response": []
+								}
+							]
+						}
+					]
 				}
 			]
 		}
