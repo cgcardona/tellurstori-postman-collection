@@ -1703,6 +1703,222 @@
 					]
 				},
 				{
+					"name": "threads",
+					"item": [
+						{
+							"name": "/users/{{username}}/threads",
+							"item": [
+								{
+									"name": "PUT threads",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 405\", function () {",
+													"    pm.response.to.have.status(405);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users/{{username}}/threads",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users",
+												"{{username}}",
+												"threads"
+											]
+										},
+										"description": "This request retrieves a list of all users registered in the application. It's useful for administrative purposes, allowing for an overview of user engagement and account details. This endpoint supports management tasks and provides insights into the user base of the application."
+									},
+									"response": []
+								},
+								{
+									"name": "PATCH threads",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 405\", function () {",
+													"    pm.response.to.have.status(405);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users/{{username}}/threads",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users",
+												"{{username}}",
+												"threads"
+											]
+										},
+										"description": "This request retrieves a list of all users registered in the application. It's useful for administrative purposes, allowing for an overview of user engagement and account details. This endpoint supports management tasks and provides insights into the user base of the application."
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE threads",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 405\", function () {",
+													"    pm.response.to.have.status(405);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users/{{username}}/threads",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users",
+												"{{username}}",
+												"threads"
+											]
+										},
+										"description": "This request retrieves a list of all users registered in the application. It's useful for administrative purposes, allowing for an overview of user engagement and account details. This endpoint supports management tasks and provides insights into the user base of the application."
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "/users/{{username}}/threads/{{id}}",
+							"item": [
+								{
+									"name": "GET undefined thread",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users/{{username}}/threads/10",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users",
+												"{{username}}",
+												"threads",
+												"10"
+											]
+										},
+										"description": "Fetches detailed information about a specific user using their unique username. This endpoint is essential for accessing comprehensive details such as the user's name, email, and profile picture URL. It enables focused user management and support activities, including profile reviews and updates."
+									},
+									"response": []
+								},
+								{
+									"name": "POST thread",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 405\", function () {",
+													"    pm.response.to.have.status(405);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{base_url}}:{{port}}/users/{{username}}/threads/{{id}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"port": "{{port}}",
+											"path": [
+												"users",
+												"{{username}}",
+												"threads",
+												"{{id}}"
+											]
+										},
+										"description": "This request retrieves a list of all users registered in the application. It's useful for administrative purposes, allowing for an overview of user engagement and account details. This endpoint supports management tasks and provides insights into the user base of the application."
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
 					"name": "users",
 					"item": [
 						{
